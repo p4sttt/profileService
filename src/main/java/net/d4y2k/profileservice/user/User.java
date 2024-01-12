@@ -1,6 +1,5 @@
 package net.d4y2k.profileservice.user;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "_user")
+@Table(name = "users")
 @Data
 @Builder
 @NoArgsConstructor
@@ -30,7 +29,9 @@ public class User {
     @Column(name = "password", unique = true, nullable = false)
     private String password;
 
-    @OneToOne
+    @OneToOne(
+            cascade = CascadeType.ALL
+    )
     @JoinTable(
             name = "user_profile",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -38,12 +39,15 @@ public class User {
     )
     private Profile profile;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime timestamp;
 
     @PrePersist
     public void onPersist() {
         timestamp = LocalDateTime.now();
+    }
+
+    public UserDTO toDto() {
+        return new UserDTO(id, username, profile.getProfilePicture(), timestamp);
     }
 
 }

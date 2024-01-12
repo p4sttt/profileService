@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Entity
-@Table(name = "profile")
+@Table(name = "profiles")
 @Data
 @Builder
 @NoArgsConstructor
@@ -21,8 +21,12 @@ public class Profile {
     @Column(name = "profile_id")
     private UUID id;
 
-    private String profileImage;
+    private String profilePicture;
 
     private String profileBanner;
 
+    public Profile(String profilePicture, String profileBanner) {
+        this.profilePicture = profilePicture;
+        this.profileBanner = profileBanner;
+    }
 }
