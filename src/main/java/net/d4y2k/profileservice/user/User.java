@@ -26,7 +26,7 @@ public class User {
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 
-    @Column(name = "password", unique = true, nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
     @OneToOne(
@@ -50,4 +50,8 @@ public class User {
         return new UserDTO(id, username, profile.getProfilePicture(), timestamp);
     }
 
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }
